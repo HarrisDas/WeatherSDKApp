@@ -39,9 +39,6 @@ android {
     buildFeatures {
         viewBinding = true
     }
-//    composeOptions {
-//        kotlinCompilerExtensionVersion = "1.5.1"
-//    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -50,10 +47,10 @@ android {
 }
 
 dependencies {
-    implementation("androidx.fragment:fragment-ktx:1.6.1")
 
     implementation(project(":WeatherSDK"))
     implementation(libs.androidx.core.ktx)
+    implementation(libs.fragment.ktx)
     implementation(libs.appCompat)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 

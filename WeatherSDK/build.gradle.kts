@@ -34,17 +34,14 @@ android {
 
 dependencies {
 
-    implementation("androidx.fragment:fragment-ktx:1.6.1")
+    implementation(libs.fragment.ktx)
     implementation(libs.kotlinx.coroutines.android)
 
-
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-
-    testImplementation("app.cash.turbine:turbine:1.1.0")
-
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
     testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter)
     testImplementation(libs.androidx.junit)
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     androidTestImplementation(libs.runner)
     androidTestImplementation(libs.espresso.core)
 }
