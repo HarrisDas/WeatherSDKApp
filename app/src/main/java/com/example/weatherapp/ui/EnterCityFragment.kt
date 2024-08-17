@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentEnterCityBinding
 import com.example.weathersdk.WeatherSDKManager
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EnterCityFragment : Fragment() {
 
     private var _binding: FragmentEnterCityBinding? = null

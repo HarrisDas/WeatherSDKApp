@@ -10,8 +10,10 @@ import androidx.lifecycle.lifecycleScope
 import com.example.weathersdk.WeatherSDKEvent
 import com.example.weathersdk.databinding.FragmentWeatherBinding
 import com.example.weathersdk.internal.EventBus
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 internal class WeatherFragment : Fragment() {
 
     private var _binding: FragmentWeatherBinding? = null

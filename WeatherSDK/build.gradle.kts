@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.hilt)
+    id("kotlin-kapt")
+
 }
 
 android {
@@ -36,6 +39,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+
     implementation(libs.appCompat)
     implementation(libs.fragment.ktx)
     implementation(libs.kotlinx.coroutines.android)
@@ -49,4 +55,8 @@ dependencies {
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.runner)
     androidTestImplementation(libs.espresso.core)
+}
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }
