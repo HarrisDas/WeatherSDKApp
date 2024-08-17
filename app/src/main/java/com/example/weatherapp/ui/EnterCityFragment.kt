@@ -12,6 +12,8 @@ import com.example.weathersdk.WeatherSDKManager
 class EnterCityFragment : Fragment() {
 
     private var _binding: FragmentEnterCityBinding? = null
+    val binding: FragmentEnterCityBinding
+        get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,7 +28,7 @@ class EnterCityFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _binding?.button?.setOnClickListener {
+        binding.button.setOnClickListener {
             val sdk = WeatherSDKManager.getInstance()
 
             val fragment = sdk.createWeatherFragment("City")

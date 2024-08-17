@@ -30,12 +30,17 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
-
+    implementation(libs.appCompat)
     implementation(libs.fragment.ktx)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.constraintlayout)
+    implementation(libs.recyclerview)
 
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)

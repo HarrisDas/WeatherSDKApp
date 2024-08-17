@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="label_city">The weather in Munich is:</string>
+    <string name="toolbar_title">24h Forecast</string>
+</resources>

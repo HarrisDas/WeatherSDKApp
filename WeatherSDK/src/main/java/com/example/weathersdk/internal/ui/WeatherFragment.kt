@@ -7,18 +7,25 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.example.weathersdk.R
 import com.example.weathersdk.WeatherSDKEvent
+import com.example.weathersdk.databinding.FragmentWeatherBinding
 import com.example.weathersdk.internal.EventBus
 import kotlinx.coroutines.launch
 
 internal class WeatherFragment : Fragment() {
+
+    private var _binding: FragmentWeatherBinding? = null
+    val binding: FragmentWeatherBinding
+        get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_weather, container, false)
+    ): View {
+        return FragmentWeatherBinding.inflate(inflater, container, false).also {
+            _binding = it
+        }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -29,6 +36,11 @@ internal class WeatherFragment : Fragment() {
                 EventBus.post(WeatherSDKEvent.OnFinished)
             }
         }
+
+        binding.backButton.setOnClickListener {
+            activity?.onBackPressed()
+        }
+
     }
 
     private fun doOnSystemBackButtonClicked(action: () -> Unit) {
