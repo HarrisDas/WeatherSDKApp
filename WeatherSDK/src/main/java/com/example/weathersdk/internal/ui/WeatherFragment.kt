@@ -12,6 +12,9 @@ import com.example.weathersdk.databinding.FragmentWeatherBinding
 import com.example.weathersdk.internal.EventBus
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 
 @AndroidEntryPoint
 internal class WeatherFragment : Fragment() {
@@ -20,10 +23,11 @@ internal class WeatherFragment : Fragment() {
     val binding: FragmentWeatherBinding
         get() = _binding!!
 
+    private val viewModel: WeatherViewModel by viewModels()
+    val adapter = WeatherAdapter()
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         return FragmentWeatherBinding.inflate(inflater, container, false).also {
             _binding = it
@@ -33,6 +37,28 @@ internal class WeatherFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initRendering()
+        initInteractions()
+        attachViewModelEventListener()
+    }
+
+    private fun initRendering() {
+        binding.rvWeather.adapter = adapter
+    }
+
+    private fun attachViewModelEventListener() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect {
+                    it.weatherForecast?.let {
+                        renderWeatherForecast(it)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initInteractions() {
         doOnSystemBackButtonClicked {
             viewLifecycleOwner.lifecycleScope.launch {
                 EventBus.post(WeatherSDKEvent.OnFinished)
@@ -42,7 +68,6 @@ internal class WeatherFragment : Fragment() {
         binding.backButton.setOnClickListener {
             activity?.onBackPressed()
         }
-
     }
 
     private fun doOnSystemBackButtonClicked(action: () -> Unit) {
@@ -52,9 +77,13 @@ internal class WeatherFragment : Fragment() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner,
-            callback
+            viewLifecycleOwner, callback
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onInteraction(WeatherViewModelInteraction.ScreenEntered)
     }
 
 }

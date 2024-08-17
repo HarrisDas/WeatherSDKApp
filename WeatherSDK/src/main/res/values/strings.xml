@@ -2,4 +2,6 @@
 <resources>
     <string name="label_city">The weather in Munich is:</string>
     <string name="toolbar_title">24h Forecast</string>
+    <string name="temperature_label">%1$s\℃</string>
+    <string name="local_time_label">AT %1$s\ LOCAL TIME</string>
 </resources>

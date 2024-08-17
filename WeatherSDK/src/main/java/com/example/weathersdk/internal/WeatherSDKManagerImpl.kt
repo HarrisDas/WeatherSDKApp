@@ -7,7 +7,7 @@ import com.example.weathersdk.WeatherSDKManager
 import com.example.weathersdk.internal.ui.WeatherFragment
 import kotlinx.coroutines.flow.Flow
 
-internal class WeatherSdkManagerImpl : WeatherSDKManager {
+internal class WeatherSDKManagerImpl : WeatherSDKManager {
     override fun createWeatherFragment(cityName: String): Fragment {
         val fragment = WeatherFragment()
         val args = Bundle().apply {

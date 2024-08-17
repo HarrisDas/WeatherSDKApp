@@ -2,7 +2,7 @@ package com.example.weathersdk
 
 import androidx.fragment.app.Fragment
 import com.example.weathersdk.internal.ApiKeyManager
-import com.example.weathersdk.internal.WeatherSdkManagerImpl
+import com.example.weathersdk.internal.WeatherSDKManagerImpl
 import kotlinx.coroutines.flow.Flow
 
 interface WeatherSDKManager {
@@ -15,7 +15,7 @@ interface WeatherSDKManager {
         private var instance: WeatherSDKManager? = null
 
         fun getInstance() = instance ?: synchronized(this) {
-            instance ?: WeatherSdkManagerImpl().also { instance = it }
+            instance ?: WeatherSDKManagerImpl().also { instance = it }
         }
 
         fun initializeSDK(apiKey: String) {

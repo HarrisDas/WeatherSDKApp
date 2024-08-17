@@ -41,12 +41,15 @@ android {
 dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    implementation(libs.lifecycleViewModel)
 
     implementation(libs.appCompat)
     implementation(libs.fragment.ktx)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.constraintlayout)
     implementation(libs.recyclerview)
+
+    testImplementation(libs.mockk)
 
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)

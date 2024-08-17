@@ -6,7 +6,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.junit.jupiter.api.Assertions
 
-class EventBusTest {
+internal class EventBusTest {
 
     @Test
     fun `emits new value when post is called`() = runTest {
