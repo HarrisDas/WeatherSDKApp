@@ -34,12 +34,15 @@ class EnterCityFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.button.setOnClickListener {
-            val sdk = WeatherSDKManager.getInstance()
+            if (!binding.editText.text.isNullOrEmpty()) {
 
-            val fragment = sdk.createWeatherFragment(binding.editText.text.toString())
-            activity?.supportFragmentManager
-                ?.beginTransaction()?.replace(R.id.container, fragment)
-                ?.commit()
+                val sdk = WeatherSDKManager.getInstance()
+
+                val fragment = sdk.createWeatherFragment(binding.editText.text.toString())
+                activity?.supportFragmentManager
+                    ?.beginTransaction()?.replace(R.id.container, fragment)
+                    ?.commit()
+            }
         }
 
 
