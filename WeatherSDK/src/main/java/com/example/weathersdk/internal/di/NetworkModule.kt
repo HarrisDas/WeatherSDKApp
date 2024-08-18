@@ -1,7 +1,6 @@
 package com.example.weathersdk.internal.di
 
 import com.example.weathersdk.BuildConfig
-import com.example.weathersdk.internal.common.networkresponse.NetworkResponseCallAdapterFactory
 import com.example.weathersdk.internal.data.api.WeatherApiService
 import dagger.Module
 import dagger.Provides
@@ -32,14 +31,11 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(
         okHttpClient: OkHttpClient,
-        networkResponseCallAdapterFactory: NetworkResponseCallAdapterFactory
-
     ): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(networkResponseCallAdapterFactory)
             .build()
     }
 
