@@ -15,6 +15,8 @@ android {
 
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("String", "BASE_URL", "\"https://api.weatherbit.io/v2.0/\"")
     }
 
     buildTypes {
@@ -35,6 +37,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -48,6 +51,12 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.constraintlayout)
     implementation(libs.recyclerview)
+
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.interceptor)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.moshi)
+    implementation(libs.retrofit.gson)
 
     testImplementation(libs.mockk)
 

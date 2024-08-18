@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -49,9 +50,19 @@ internal class WeatherFragment : Fragment() {
     private fun attachViewModelEventListener() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect {
-                    it.weatherForecast?.let {
+                viewModel.uiState.collect { weatherUIState ->
+                    weatherUIState.weatherForecast?.let {
                         renderWeatherForecast(it)
+                    } ?: run {
+                        weatherUIState.error?.let {
+
+                            Toast.makeText(
+                                this@WeatherFragment.context,
+                                it,
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
+                        }
                     }
                 }
             }
