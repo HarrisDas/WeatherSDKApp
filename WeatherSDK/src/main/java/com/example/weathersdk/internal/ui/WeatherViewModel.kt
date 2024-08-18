@@ -26,7 +26,7 @@ internal class WeatherViewModel @Inject constructor(
 
     private fun fetchWeatherForecast() {
         viewModelScope.launch {
-            when (val result = useCase.invoke()) {
+            when (val result = useCase.invoke("")) {
                 is Result.Failure -> _uiState.emit(WeatherUIState(error = result.reason))
                 is Result.Success -> _uiState.emit(WeatherUIState(result.data))
             }

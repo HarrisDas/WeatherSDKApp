@@ -36,7 +36,7 @@ internal class WeatherViewModelTest {
         MockKAnnotations.init(this)
 
         coEvery {
-            useCase.invoke()
+            useCase.invoke("city")
         } returns Result.Success(
             data = WeatherForecast(
                 currentWeather = Forecast(
@@ -60,7 +60,7 @@ internal class WeatherViewModelTest {
         subject.onInteraction(ScreenEntered)
 
         coVerify {
-            useCase.invoke()
+            useCase.invoke("city")
         }
     }
 
@@ -93,7 +93,7 @@ internal class WeatherViewModelTest {
     @Test
     fun `emits ui state when forecast is not fetched successfully`() = runTest {
         coEvery {
-            useCase.invoke()
+            useCase.invoke("city")
         } returns Result.Failure("Something went wrong")
 
         subject.onInteraction(ScreenEntered)
