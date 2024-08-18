@@ -2,6 +2,8 @@ package com.example.weathersdk.internal.ui
 
 import app.cash.turbine.test
 import com.example.weathersdk.TestCoroutineRule
+import com.example.weathersdk.WeatherSDKEvent
+import com.example.weathersdk.internal.EventBus
 import com.example.weathersdk.internal.common.Result
 import com.example.weathersdk.internal.domain.model.Forecast
 import com.example.weathersdk.internal.domain.model.WeatherForecast
@@ -18,7 +20,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 
 internal class WeatherViewModelTest {
 
@@ -86,8 +88,6 @@ internal class WeatherViewModelTest {
             assertEquals("Mostly Cloudy", hourlyForecast.description)
             assertEquals(23.0, hourlyForecast.temperature)
             assertEquals("12:00", hourlyForecast.timestamp)
-
-            assertNull(item.error)
         }
 
     }
@@ -98,13 +98,14 @@ internal class WeatherViewModelTest {
             useCase.invoke("city")
         } returns Result.Failure("Something went wrong")
 
-        subject.onInteraction(ScreenEntered("city"))
+        EventBus.events.test {
+            subject.onInteraction(ScreenEntered("city"))
 
-        subject.uiState.test {
-            val item = awaitItem()
-
-            assertNull(item.weatherForecast)
-            assertEquals("Something went wrong", item.error)
+            val awaitItem = awaitItem()
+            assertTrue(awaitItem is WeatherSDKEvent.OnFinishedWithError)
+        }
+        subject.event.test {
+            assertTrue(awaitItem())
         }
 
     }

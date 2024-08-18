@@ -22,7 +22,7 @@ const val KEY_CITY_NAME = "cityName"
 internal class WeatherFragment : Fragment() {
 
     private var _binding: FragmentWeatherBinding? = null
-    val binding: FragmentWeatherBinding
+    private val binding: FragmentWeatherBinding
         get() = _binding!!
 
     private val viewModel: WeatherViewModel by viewModels()
@@ -57,6 +57,13 @@ internal class WeatherFragment : Fragment() {
                         adapter.submit(it)
                     }
                 }
+
+
+            }
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.event.collect {
+                    if (it) activity?.onBackPressed()
+                }
             }
         }
     }
@@ -88,9 +95,8 @@ internal class WeatherFragment : Fragment() {
         super.onResume()
         viewModel.onInteraction(
             WeatherViewModelInteraction.ScreenEntered(
-                arguments?.getString(
-                    KEY_CITY_NAME,
-                    null
+                requireArguments().getString(
+                    KEY_CITY_NAME, ""
                 )
             )
         )
