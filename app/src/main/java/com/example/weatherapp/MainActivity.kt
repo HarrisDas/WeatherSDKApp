@@ -17,8 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        WeatherSDKManager.initializeSDK("")
-
+        WeatherSDKManager.initializeSDK(BuildConfig.API_KEY)
 
         supportFragmentManager.beginTransaction().replace(R.id.container, EnterCityFragment())
             .commit()
@@ -26,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 WeatherSDKManager.getInstance().observeWeatherSdkEvents().collect {
+                    println(it)
                     supportFragmentManager.beginTransaction()
                         .replace(
                             R.id.container,

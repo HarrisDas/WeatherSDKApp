@@ -5,7 +5,6 @@ import com.example.weathersdk.internal.data.model.WeatherData
 import com.example.weathersdk.internal.data.model.WeatherResponse
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
@@ -17,6 +16,7 @@ import com.example.weathersdk.internal.common.Result
 import com.example.weathersdk.internal.data.model.Weather
 import com.example.weathersdk.internal.data.model.WeatherForecastResponse
 import com.example.weathersdk.internal.domain.model.Forecast
+import io.mockk.coVerify
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
@@ -25,15 +25,13 @@ class WeatherForecastRepositoryImplTest {
     @MockK
     private lateinit var apiService: WeatherApiService
 
-    @InjectMockKs
-    private lateinit var repository: WeatherForecastRepositoryImpl
-
-
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-
     }
+
+    private fun createSubject(apiKey: String? = null) =
+        WeatherForecastRepositoryImpl(apiService, apiKey)
 
     @Test
     fun `getForecast should return success when API call is successful`() = runTest {
@@ -49,7 +47,7 @@ class WeatherForecastRepositoryImplTest {
         )
 
         // When
-        val result = repository.getForecast("New York")
+        val result = createSubject("key").getForecast("New York")
 
         // Then
         assertTrue(result is Result.Success)
@@ -68,10 +66,21 @@ class WeatherForecastRepositoryImplTest {
         } returns mockk()
 
         // When
-        val result = repository.getForecast("New York")
+        val result = createSubject("key").getForecast("New York")
 
         // Then
         assertTrue(result is Result.Failure)
+    }
+
+    @Test
+    fun `getForecast should return failure when apiKey is not valid`() = runTest {
+        val result = createSubject().getForecast("")
+        coVerify(exactly = 0) {
+            apiService.getCurrentWeather(any(), any())
+        }
+
+        assertTrue(result is Result.Failure)
+
     }
 
     @Test
@@ -89,7 +98,7 @@ class WeatherForecastRepositoryImplTest {
         )
 
         // When
-        val result = repository.getHourlyForecast("New York")
+        val result = createSubject("key").getHourlyForecast("New York")
 
         // Then
         assertTrue(result is Result.Success)
@@ -106,9 +115,19 @@ class WeatherForecastRepositoryImplTest {
         coEvery { apiService.getHourlyForecast(any(), any(), any()) } returns mockk()
 
         // When
-        val result = repository.getHourlyForecast("New York")
+        val result = createSubject("key").getHourlyForecast("New York")
 
         // Then
+        assertTrue(result is Result.Failure)
+    }
+
+    @Test
+    fun `getHourlyForecast should return failure when apiKey is not valid`() = runTest {
+        val result = createSubject().getHourlyForecast("")
+        coVerify(exactly = 0) {
+            apiService.getHourlyForecast(any(), any(), any())
+        }
+
         assertTrue(result is Result.Failure)
     }
 }

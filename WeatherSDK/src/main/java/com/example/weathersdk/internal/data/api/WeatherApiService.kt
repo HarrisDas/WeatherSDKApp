@@ -17,7 +17,7 @@ interface WeatherApiService {
     @GET("forecast/hourly")
     suspend fun getHourlyForecast(
         @Query("city") city: String,
-        @Query("hours") hours: Int,
+        @Query("hours") hours: Int = 24,
         @Query("key") apiKey: String
     ): Response<WeatherForecastResponse>
 }

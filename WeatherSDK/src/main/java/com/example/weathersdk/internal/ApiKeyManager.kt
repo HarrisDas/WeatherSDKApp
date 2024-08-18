@@ -1,7 +1,9 @@
 package com.example.weathersdk.internal
 
 internal class ApiKeyManager private constructor() {
-    private lateinit var apiKey: String
+    var apiKey: String? = null
+        private set
+
 
     companion object {
         @Volatile
