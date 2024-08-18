@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.WeatherApp" parent="Theme.AppCompat.Light.NoActionBar" />
+    <style name="Theme.WeatherApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+
+        <item name="colorPrimary">@color/schemes_primary</item>
+        <item name="colorPrimaryDark">@color/schemes_primary</item>
+        <item name="colorAccent">@color/schemes_primary</item>
+    </style>
 </resources>

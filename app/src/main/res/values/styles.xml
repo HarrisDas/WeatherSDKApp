@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!-- Custom EditText style -->
+    <style name="CustomEditTextStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/schemes_primary</item>
+        <item name="android:textColor">#181C20</item>
+        <item name="hintTextColor">#41484D</item>
+        <item name="boxBackgroundColor">@color/white</item>
+    </style>
+</resources>
