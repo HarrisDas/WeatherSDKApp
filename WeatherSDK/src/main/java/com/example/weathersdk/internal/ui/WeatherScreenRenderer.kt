@@ -1,23 +1,27 @@
 package com.example.weathersdk.internal.ui
 
 import com.example.weathersdk.R
-import com.example.weathersdk.internal.domain.model.WeatherForecast
+import com.example.weathersdk.databinding.FragmentWeatherBinding
 
-internal fun WeatherFragment.renderWeatherForecast(weatherForecast: WeatherForecast) {
+internal fun FragmentWeatherBinding.renderWeatherForecast(
+    weatherUIState: WeatherUIState
+) = with(weatherUIState) {
+    tvCityName.text = root.context.getString(
+        R.string.label_city,
+        cityName
+    )
 
-
-//    binding.tvCityName
-    with(binding) {
+    weatherForecast?.let {
         tvTemperature.text = root.context.getString(
             R.string.temperature_label,
-            weatherForecast.currentWeather.temperature.toString()
+            it.currentWeather.temperature.toString()
         )
+
         tvLocalTime.text = root.context.getString(
             R.string.local_time_label,
-            weatherForecast.currentWeather.timestamp
+            it.currentWeather.timestamp
         )
-        tvTemperatureStatus.text = weatherForecast.currentWeather.description
-    }
-    adapter.submit(weatherForecast.hourlyForeCast)
 
+        tvTemperatureStatus.text = it.currentWeather.description
+    }
 }

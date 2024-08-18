@@ -15,20 +15,30 @@ internal class WeatherViewModel @Inject constructor(
     private val useCase: GetWeatherForecastUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(WeatherUIState(weatherForecast = null))
+    private val _uiState = MutableStateFlow(WeatherUIState(weatherForecast = null, cityName = ""))
     val uiState = _uiState.asStateFlow()
 
     fun onInteraction(interaction: WeatherViewModelInteraction) {
         when (interaction) {
-            WeatherViewModelInteraction.ScreenEntered -> fetchWeatherForecast()
+            is WeatherViewModelInteraction.ScreenEntered -> fetchWeatherForecast(interaction.cityName)
         }
     }
 
-    private fun fetchWeatherForecast() {
-        viewModelScope.launch {
-            when (val result = useCase.invoke("Karachi")) {
-                is Result.Failure -> _uiState.emit(WeatherUIState(error = result.reason))
-                is Result.Success -> _uiState.emit(WeatherUIState(result.data))
+    private fun fetchWeatherForecast(cityName: String?) {
+        cityName?.let {
+
+            viewModelScope.launch {
+                _uiState.emit(WeatherUIState(cityName = it))
+                when (val result = useCase.invoke(it)) {
+                    is Result.Failure -> _uiState.emit(
+                        WeatherUIState(
+                            error = result.reason,
+                            cityName = it
+                        )
+                    )
+
+                    is Result.Success -> _uiState.emit(WeatherUIState(result.data, cityName = it))
+                }
             }
         }
     }

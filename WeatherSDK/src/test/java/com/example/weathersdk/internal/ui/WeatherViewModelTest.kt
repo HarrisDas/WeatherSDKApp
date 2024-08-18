@@ -56,21 +56,23 @@ internal class WeatherViewModelTest {
     }
 
     @Test
-    fun `fetch forecast when ScreenEntered interaction is received`() = runTest {
-        subject.onInteraction(ScreenEntered)
+    fun `fetch forecast when ScreenEntered interaction is received and cityName is provided`() =
+        runTest {
+            subject.onInteraction(ScreenEntered("city"))
 
-        coVerify {
-            useCase.invoke("city")
+            coVerify {
+                useCase.invoke("city")
+            }
         }
-    }
 
 
     @Test
     fun `emits ui state when forecast is fetched successfully`() = runTest {
-        subject.onInteraction(ScreenEntered)
+        subject.onInteraction(ScreenEntered("city"))
 
         subject.uiState.test {
             val item = awaitItem()
+            assertEquals("city", item.cityName)
             assertNotNull(item.weatherForecast)
 
             val weatherForecast = item.weatherForecast!!
@@ -96,7 +98,7 @@ internal class WeatherViewModelTest {
             useCase.invoke("city")
         } returns Result.Failure("Something went wrong")
 
-        subject.onInteraction(ScreenEntered)
+        subject.onInteraction(ScreenEntered("city"))
 
         subject.uiState.test {
             val item = awaitItem()

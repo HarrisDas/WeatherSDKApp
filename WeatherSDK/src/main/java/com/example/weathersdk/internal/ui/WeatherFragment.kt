@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +15,8 @@ import kotlinx.coroutines.launch
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
+
+const val KEY_CITY_NAME = "cityName"
 
 @AndroidEntryPoint
 internal class WeatherFragment : Fragment() {
@@ -51,18 +52,9 @@ internal class WeatherFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { weatherUIState ->
-                    weatherUIState.weatherForecast?.let {
-                        renderWeatherForecast(it)
-                    } ?: run {
-                        weatherUIState.error?.let {
-
-                            Toast.makeText(
-                                this@WeatherFragment.context,
-                                it,
-                                Toast.LENGTH_LONG
-                            )
-                                .show()
-                        }
+                    binding.renderWeatherForecast(weatherUIState)
+                    weatherUIState.weatherForecast?.hourlyForeCast?.let {
+                        adapter.submit(it)
                     }
                 }
             }
@@ -94,7 +86,14 @@ internal class WeatherFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.onInteraction(WeatherViewModelInteraction.ScreenEntered)
+        viewModel.onInteraction(
+            WeatherViewModelInteraction.ScreenEntered(
+                arguments?.getString(
+                    KEY_CITY_NAME,
+                    null
+                )
+            )
+        )
     }
 
 }

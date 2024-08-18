@@ -33,7 +33,7 @@ class EnterCityFragment : Fragment() {
         binding.button.setOnClickListener {
             val sdk = WeatherSDKManager.getInstance()
 
-            val fragment = sdk.createWeatherFragment("City")
+            val fragment = sdk.createWeatherFragment("Berlin")
             activity?.supportFragmentManager
                 ?.beginTransaction()?.replace(R.id.container, fragment)
                 ?.commit()
