@@ -16,9 +16,16 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+
+        maven {
+            url = uri("https://maven.pkg.github.com/HarrisDas/WeatherSDKApp/")
+            credentials {
+                username = System.getenv("GH_USERNAME")
+                password = System.getenv("GH_PASSWORD")
+            }
+        }
     }
 }
 
 rootProject.name = "WeatherApp"
 include(":app")
-include(":WeatherSDK")

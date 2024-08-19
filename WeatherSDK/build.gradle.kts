@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.hilt)
     id("kotlin-kapt")
+    id("maven-publish")
 
 }
 
@@ -38,6 +39,27 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+    }
+}
+publishing {
+    publications {
+        create<MavenPublication>("release") {
+
+            groupId = "com.example.weathersdk"
+            artifactId = "weathersdk"
+            version = "1.0.0"
+            artifact("$buildDir/outputs/aar/WeatherSDK-release.aar")
+        }
+    }
+    repositories {
+        maven {
+            name = "GithubPackages"
+            url = uri("https://maven.pkg.github.com/HarrisDas/WeatherSDKApp/")
+            credentials {
+                username = System.getenv("GH_USERNAME")
+                password = System.getenv("GH_PASSWORD")
+            }
+        }
     }
 }
 

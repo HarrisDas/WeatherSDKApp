@@ -55,8 +55,13 @@ dependencies {
     implementation(libs.material)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    implementation(libs.weatherSdk)
 
-    implementation(project(":WeatherSDK"))
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.interceptor)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.fragment.ktx)
     implementation(libs.appCompat)

@@ -20,6 +20,7 @@ mockk = "1.13.12"
 retrofit = "2.9.0"
 okhttp = "4.9.3"
 material = "1.9.0"
+weatherSdk = "1.0.0"
 
 [libraries]
 appCompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
@@ -47,6 +48,7 @@ retrofit-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.re
 retrofit-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 okhttp-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
+weatherSdk = { module = "com.example.weathersdk:weathersdk", version.ref = "weatherSdk" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
