@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.hilt)
     id("kotlin-kapt")
     id("maven-publish")
-
+    id("org.jetbrains.dokka")
 }
 
 android {
@@ -47,7 +47,7 @@ publishing {
 
             groupId = "com.example.weathersdk"
             artifactId = "weathersdk"
-            version = "1.0.0"
+            version = "1.0.1"
             artifact("$buildDir/outputs/aar/WeatherSDK-release.aar")
         }
     }
@@ -67,6 +67,8 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.lifecycleViewModel)
+    dokkaPlugin("org.jetbrains.dokka:android-documentation-plugin:1.9.20")
+
 
     implementation(libs.appCompat)
     implementation(libs.fragment.ktx)

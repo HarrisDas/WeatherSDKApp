@@ -16,7 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 
-const val KEY_CITY_NAME = "cityName"
+internal const val KEY_CITY_NAME = "cityName"
 
 @AndroidEntryPoint
 internal class WeatherFragment : Fragment() {

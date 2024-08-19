@@ -6,7 +6,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import retrofit2.Response
 
-suspend fun <T> handleApiResponse(
+internal suspend fun <T> handleApiResponse(
     apiCall: suspend () -> Response<T>
 ): Result<T, String> {
     return try {

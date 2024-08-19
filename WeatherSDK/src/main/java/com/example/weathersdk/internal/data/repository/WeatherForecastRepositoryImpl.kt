@@ -13,7 +13,7 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
-class WeatherForecastRepositoryImpl @Inject constructor(
+internal class WeatherForecastRepositoryImpl @Inject constructor(
     private val apiService: WeatherApiService,
     @ApiKey private val apiKey: String?
 ) :

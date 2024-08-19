@@ -2,7 +2,7 @@ package com.example.weathersdk.internal.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class WeatherForecastResponse(
+internal data class WeatherForecastResponse(
     @SerializedName("data")
     val data: List<WeatherData>,
 
@@ -10,12 +10,12 @@ data class WeatherForecastResponse(
     val timezone: String,
 )
 
-data class WeatherResponse(
+internal data class WeatherResponse(
     @SerializedName("data")
     val data: List<WeatherData>
 )
 
-data class WeatherData(
+internal data class WeatherData(
     @SerializedName("temp")
     val temp: Double,
     @SerializedName("timezone")
@@ -26,7 +26,7 @@ data class WeatherData(
     val weather: Weather,
 )
 
-data class Weather(
+internal data class Weather(
     @SerializedName("description")
     val description: String,
 )

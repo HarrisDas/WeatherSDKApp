@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ApiKeyModule {
+internal object ApiKeyModule {
 
     @Singleton
     @Provides
@@ -19,4 +19,4 @@ object ApiKeyModule {
 }
 
 @Qualifier
-annotation class ApiKey
+internal annotation class ApiKey

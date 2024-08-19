@@ -7,7 +7,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 
-class GetWeatherForecastUseCase @Inject constructor(private val repository: WeatherForecastRepository) {
+internal class GetWeatherForecastUseCase @Inject constructor(private val repository: WeatherForecastRepository) {
     suspend fun invoke(city: String): Result<WeatherForecast, String> = coroutineScope {
         val forecastDeferred = async { repository.getForecast(city) }
         val hourlyForecastDeferred = async { repository.getHourlyForecast(city) }
