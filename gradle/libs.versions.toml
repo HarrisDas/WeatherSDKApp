@@ -20,7 +20,7 @@ mockk = "1.13.12"
 retrofit = "2.9.0"
 okhttp = "4.9.3"
 material = "1.9.0"
-weatherSdk = "1.0.0"
+weatherSdk = "1.0.1"
 
 [libraries]
 appCompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
