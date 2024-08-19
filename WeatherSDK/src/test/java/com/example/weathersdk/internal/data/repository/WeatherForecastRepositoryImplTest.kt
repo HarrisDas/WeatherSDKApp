@@ -39,7 +39,8 @@ class WeatherForecastRepositoryImplTest {
         val weatherData = WeatherData(
             temp = 25.0,
             ts = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC),
-            weather = Weather(description = "Clear")
+            weather = Weather(description = "Clear"),
+            timezone = "Asia/Karachi"
         )
         val weatherResponse = WeatherResponse(listOf(weatherData))
         coEvery { apiService.getCurrentWeather(any(), any()) } returns Response.success(
@@ -89,10 +90,14 @@ class WeatherForecastRepositoryImplTest {
         val weatherData = WeatherData(
             temp = 20.0,
             ts = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC),
-            weather = Weather(description = "Cloudy")
+            weather = Weather(description = "Cloudy"),
+            timezone = "Asia/Karachi"
         )
         val weatherResponse =
-            WeatherForecastResponse(listOf(weatherData, weatherData.copy(temp = 22.0)))
+            WeatherForecastResponse(
+                listOf(weatherData, weatherData.copy(temp = 22.0)),
+                timezone = "Asia/Karachi"
+            )
         coEvery { apiService.getHourlyForecast(any(), any(), any()) } returns Response.success(
             weatherResponse
         )

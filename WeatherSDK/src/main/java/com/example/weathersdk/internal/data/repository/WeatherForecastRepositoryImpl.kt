@@ -7,8 +7,10 @@ import com.example.weathersdk.internal.data.model.WeatherData
 import com.example.weathersdk.internal.di.ApiKey
 import com.example.weathersdk.internal.domain.model.Forecast
 import com.example.weathersdk.internal.domain.repository.WeatherForecastRepository
-import java.time.LocalDateTime
-import java.time.ZoneOffset
+import java.time.Instant
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class WeatherForecastRepositoryImpl @Inject constructor(
@@ -25,7 +27,7 @@ class WeatherForecastRepositoryImpl @Inject constructor(
                     apiKey = apiKey
                 )
             }.map {
-                it.data[0].mapWeather()
+                it.data[0].mapWeather(it.data[0].timezone!!)
             }
             result
         } ?: run {
@@ -40,12 +42,27 @@ class WeatherForecastRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun WeatherData.mapWeather(): Forecast =
+    private fun WeatherData.mapWeather(tz: String): Forecast =
         Forecast(
             temp,
             description = weather.description,
-            LocalDateTime.ofEpochSecond(ts, 0, ZoneOffset.UTC).toLocalTime().toString()
+            convertTimestampToLocalTime(ts, tz)
         )
+
+    private fun convertTimestampToLocalTime(timestamp: Long, zoneId: String?): String {
+        // Create an Instant from the timestamp
+        val instant = Instant.ofEpochSecond(timestamp)
+
+        val zone = zoneId?.let {
+            ZoneId.of(zoneId)
+        } ?: ZoneId.systemDefault()
+        // Convert the Instant to a ZonedDateTime in the system's default time zone
+        val zonedDateTime = ZonedDateTime.ofInstant(instant, zone)
+
+        // Format the ZonedDateTime to a string
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        return zonedDateTime.format(formatter)
+    }
 
     override suspend fun getHourlyForecast(city: String): Result<List<Forecast>, String> {
         return apiKey?.let {
@@ -56,8 +73,9 @@ class WeatherForecastRepositoryImpl @Inject constructor(
                     city = city,
                     apiKey = apiKey
                 )
-            }.map {
-                it.data.map { it.mapWeather() }
+            }.map {response->
+
+                response.data.map { it.mapWeather(response.timezone) }
             }
 
         } ?: run {
